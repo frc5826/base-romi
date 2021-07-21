@@ -22,22 +22,32 @@ public class Robot extends TimedRobot
     private final Joystick joystick = new Joystick(0);
     private final RomiDrivetrain drivetrain = new RomiDrivetrain();
 
+    @Override
+    public void autonomousInit(){
+        drivetrain.resetEncoders();
+        drivetrain.resetAngle();
+    }
+
     /** This method is called periodically during autonomous. */
     @Override
     public void autonomousPeriodic()
     {
-        double forwardSpeed = 0;
-        double turnSpeed = .5;
+        //The number of inches the right wheel has moved
+        double right = drivetrain.getRightDistanceInch();
 
-        drivetrain.drive(forwardSpeed, turnSpeed);
+        //The number of inches the left wheel has moved
+        double left = drivetrain.getLeftDistanceInch();
+
+        //The angle (z-axis) our robot has rotated
+        double angle = drivetrain.getAngle();
+
+        //How to drive the robot
+        //drivetrain.arcadeDrive(forwardSpeed, rotationSpeed);
     }
 
     /** This method is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        double forwardSpeed = joystick.getY();
-        double turnSpeed = joystick.getZ();
 
-        drivetrain.drive(forwardSpeed, turnSpeed);
     }
 }
